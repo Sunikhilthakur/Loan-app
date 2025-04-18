@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize loan comparison functionality
   const loanAmountSlider = document.getElementById("loanAmount");
   const selectedAmountDisplay = document.getElementById("selectedAmount");
   const loanTermSelect = document.getElementById("loanTerm");
   const comparisonTable = document.getElementById("comparisonTable");
   
-  // Loan options data
+  // Initialize loan options
   const loanTypes = [
     { type: "personal", name: "Personal Loan", rate: 10.5, minTerm: 12, maxTerm: 60 },
     { type: "home", name: "Home Loan", rate: 8.2, minTerm: 60, maxTerm: 240 },
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { type: "business", name: "Business Loan", rate: 12.0, minTerm: 12, maxTerm: 60 }
   ];
   
-  // Event listeners
+  // Initialize event listeners
   loanAmountSlider.addEventListener("input", updateComparison);
   loanTermSelect.addEventListener("change", updateComparison);
   
@@ -28,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update displayed amount
     selectedAmountDisplay.textContent = amount.toLocaleString();
     
-    // Filter available loans for selected term
+    // Filter loan types available for selected term
     const availableLoans = loanTypes.filter(loan => 
       term >= loan.minTerm && term <= loan.maxTerm
     );
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     
-    // Generate comparison table
+    // Generate table rows
     let tableHTML = "";
     
     availableLoans.forEach(loan => {
@@ -62,51 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     comparisonTable.innerHTML = tableHTML;
-    updateChart(availableLoans, amount, term);
   }
   
   function calculateMonthlyPayment(amount, rate, months) {
     const monthlyRate = rate / 100 / 12;
     return (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -months));
-  }
-  
-  function updateChart(loans, amount, term) {
-    const ctx = document.getElementById('comparisonChart').getContext('2d');
-    
-    // Destroy previous chart if exists
-    if (window.loanComparisonChart) {
-      window.loanComparisonChart.destroy();
-    }
-    
-    const labels = loans.map(loan => loan.name);
-    const monthlyPayments = loans.map(loan => 
-      calculateMonthlyPayment(amount, loan.rate, term)
-    );
-    
-    window.loanComparisonChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Monthly Payment (₹)',
-          data: monthlyPayments,
-          backgroundColor: 'rgba(54, 162, 235, 0.7)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Monthly Payment (₹)'
-            }
-          }
-        }
-      }
-    });
   }
 });

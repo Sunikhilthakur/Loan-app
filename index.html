@@ -22,7 +22,7 @@
     </div>
     <div class="nav-right" id="userDetails" style="display:none;">
       <span id="userEmail"></span>
-      <button id="logoutButton">Logout</button>
+      <button id="logoutButton">Logout</button> <!-- Use id here for JS event binding -->
     </div>
   </nav>
 
@@ -55,37 +55,42 @@
   <!-- Import Firebase SDKs and your config file -->
   <script type="module">
     import { auth } from './js/firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-    // Check auth state
-    onAuthStateChanged(auth, (user) => {
+    // Check if the user is logged in
+    onAuthStateChanged(auth, user => {
       const authButtons = document.getElementById("authButtons");
       const userDetails = document.getElementById("userDetails");
       const userEmail = document.getElementById("userEmail");
-      const logoutButton = document.getElementById("logoutButton");
 
       if (user) {
         // User is logged in
-        authButtons.style.display = "none";
-        userDetails.style.display = "flex"; // Use flex to align items properly
-        userEmail.textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
-        
-        // Add logout event listener
-        logoutButton.addEventListener('click', () => {
-          signOut(auth).then(() => {
-            window.location.href = "index.html";
-          }).catch((error) => {
-            console.error("Logout error:", error);
-          });
-        });
+        authButtons.style.display = "none";  // Hide Login and Sign Up buttons
+        userDetails.style.display = "block"; // Show User details and Logout button
+        userEmail.textContent = `Hi, ${user.displayName || user.email}`;
       } else {
-        // No user logged in
-        authButtons.style.display = "flex";
-        userDetails.style.display = "none";
+        // No user is logged in
+        authButtons.style.display = "block";  // Show Login and Sign Up buttons
+        userDetails.style.display = "none";  // Hide User details and Logout button
       }
     });
+
+    // Logout function
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "index.html";  // Redirect to home page after logout
+      }).catch((error) => {
+        console.error("Error during logout:", error);
+      });
+    }
+
+    // Attach event listener to logout button
+    document.getElementById('logoutButton').addEventListener('click', logout);
   </script>
 
+  <!-- Include your custom script for other logic -->
+   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/auth.js"></script>
+
 </body>
 </html>
