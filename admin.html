@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="applyloan.html">Apply Loan</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="repayment.html">Repayment</a>
+      <a href="compare.html">Compare Loans</a>
+      <a href="admin.html" class="active" id="adminLink">Admin</a>
+    </div>
+    <div class="nav-right" id="userDetails">
+      <span id="userEmail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3>Total Applications</h3>
+        <p id="totalApplications">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Pending Review</h3>
+        <p id="pendingApplications">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Approved Loans</h3>
+        <p id="approvedLoans">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Rejected Loans</h3>
+        <p id="rejectedLoans">0</p>
+      </div>
+    </div>
+    
+    <div class="admin-controls">
+      <div class="filters">
+        <select id="statusFilter">
+          <option value="all">All Statuses</option>
+          <option value="submitted">Submitted</option>
+          <option value="under-review">Under Review</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <input type="date" id="dateFilter">
+        <button id="resetFilters">Reset Filters</button>
+      </div>
+      
+      <div class="search">
+        <input type="text" id="applicantSearch" placeholder="Search by applicant name">
+        <button id="searchButton">Search</button>
+      </div>
+    </div>
+    
+    <div class="applications-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Application ID</th>
+            <th>Applicant Name</th>
+            <th>Loan Amount</th>
+            <th>Status</th>
+            <th>Submitted Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="applicationsTable">
+          <tr>
+            <td colspan="6" class="no-data">Loading applications...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="applicationModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="modalTitle">Application Details</h2>
+      <div id="modalContent">
+        Loading application details...
+      </div>
+      <div class="modal-actions" id="modalActions">
+        <button class="approve-btn">Approve</button>
+        <button class="reject-btn">Reject</button>
+        <button class="review-btn">Mark for Review</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

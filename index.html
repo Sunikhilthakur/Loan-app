@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html" class="active">Home</a>
+      <a href="applyloan.html">Apply Loan</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="repayment.html">Repayment</a>
+      <a href="compare.html">Compare Loans</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+    </div>
+    <div class="nav-right" id="authButtons">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="nav-right" id="userDetails" style="display:none;">
+      <span id="userEmail"></span>
+      <button id="logoutButton">Logout</button> <!-- Use id here for JS event binding -->
+    </div>
+  </nav>
+
+  <main class="hero">
+    <div class="hero-content">
+      <h1>Welcome to QuickLoan</h1>
+      <p>Fast, secure and transparent loan application process with real-time tracking</p>
+      <a href="applyloan.html" class="cta-button">Apply Now</a>
+    </div>
+  </main>
+
+  <section class="features">
+    <div class="feature-card">
+      <div class="feature-icon">📝</div>
+      <h3>Easy Application</h3>
+      <p>Simple 3-step application process with instant validation</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Real-Time Tracking</h3>
+      <p>Track your loan status in real-time with visual indicators</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3>Smart Repayment</h3>
+      <p>Interactive repayment calendar with automated reminders</p>
+    </div>
+  </section>
+
+  <!-- Import Firebase SDKs and your config file -->
+  <script type="module">
+    import { auth } from './js/firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    // Check if the user is logged in
+    onAuthStateChanged(auth, user => {
+      const authButtons = document.getElementById("authButtons");
+      const userDetails = document.getElementById("userDetails");
+      const userEmail = document.getElementById("userEmail");
+
+      if (user) {
+        // User is logged in
+        authButtons.style.display = "none";  // Hide Login and Sign Up buttons
+        userDetails.style.display = "block"; // Show User details and Logout button
+        userEmail.textContent = `Hi, ${user.displayName || user.email}`;
+      } else {
+        // No user is logged in
+        authButtons.style.display = "block";  // Show Login and Sign Up buttons
+        userDetails.style.display = "none";  // Hide User details and Logout button
+      }
+    });
+
+    // Logout function
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = "index.html";  // Redirect to home page after logout
+      }).catch((error) => {
+        console.error("Error during logout:", error);
+      });
+    }
+
+    // Attach event listener to logout button
+    document.getElementById('logoutButton').addEventListener('click', logout);
+  </script>
+
+ 
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

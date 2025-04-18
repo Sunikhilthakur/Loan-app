@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Loan Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-container {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    
+    .auth-container h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+    }
+    
+    .auth-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .auth-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .auth-form input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    
+    .auth-form input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    .auth-form button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1rem;
+    }
+    
+    .auth-links {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    
+    .auth-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .auth-links a:hover {
+      text-decoration: underline;
+    }
+    
+    .error-message {
+      color: var(--danger-color);
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="applyloan.html">Apply Loan</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="repayment.html">Repayment</a>
+      <a href="compare.html">Compare Loans</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+    </div>
+    <div class="nav-right" id="authButtons">
+      <a href="login.html" class="active">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="nav-right" id="userDetails" style="display:none;">
+      <span id="userEmail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="auth-container">
+      <h1>Login to Your Account</h1>
+      
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+          <div class="error-message" id="loginEmailError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+          <div class="error-message" id="loginPasswordError"></div>
+        </div>
+        
+        <button type="submit" class="submit-btn">Login</button>
+        
+        <div class="auth-links">
+          <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+          <p><a href="forgot-password.html">Forgot your password?</a></p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script type="module">
+    import { auth } from './js/firebase-config.js'; 
+    import { 
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("loginForm");
+      const emailInput = document.getElementById("loginEmail");
+      const passwordInput = document.getElementById("loginPassword");
+      const emailError = document.getElementById("loginEmailError");
+      const passwordError = document.getElementById("loginPasswordError");
+      
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        // Reset errors
+        emailError.style.display = "none";
+        passwordError.style.display = "none";
+        
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        
+        // Basic validation
+        if (!email) {
+          emailError.textContent = "Please enter your email address";
+          emailError.style.display = "block";
+          return;
+        }
+        
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          emailError.textContent = "Please enter a valid email address";
+          emailError.style.display = "block";
+          return;
+        }
+        
+        if (!password) {
+          passwordError.textContent = "Please enter your password";
+          passwordError.style.display = "block";
+          return;
+        }
+        
+        // Show loading state
+        const submitBtn = loginForm.querySelector(".submit-btn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Logging in...";
+        
+        try {
+          // Sign in with Firebase
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          
+          // Check if this is the admin user
+          const isAdmin = email === "sunikhil1409.be21@chitkara.edu.in" && password === "123";
+          
+          // Redirect to dashboard
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Login error:", error);
+          
+          // Handle specific errors
+          switch (error.code) {
+            case "auth/user-not-found":
+              emailError.textContent = "No account found with this email";
+              emailError.style.display = "block";
+              break;
+            case "auth/wrong-password":
+              passwordError.textContent = "Incorrect password";
+              passwordError.style.display = "block";
+              break;
+            case "auth/too-many-requests":
+              passwordError.textContent = "Too many attempts. Try again later or reset your password";
+              passwordError.style.display = "block";
+              break;
+            default:
+              passwordError.textContent = "Login failed. Please try again";
+              passwordError.style.display = "block";
+          }
+        } finally {
+          // Reset button
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Login";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

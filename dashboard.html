@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="applyloan.html">Apply Loan</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="repayment.html">Repayment</a>
+      <a href="compare.html">Compare Loans</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+    </div>
+    <div class="nav-right" id="authButtons">
+      <a href="login.html">Login</a>
+  <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="nav-right" id="userDetails" style="display:none;">
+      <span id="userEmail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+    <h1>Loan Dashboard</h1>
+    
+    <div id="adminControls" style="display:none;">
+      <h2>Admin Controls</h2>
+      <div class="admin-filters">
+        <select id="filterStatus">
+          <option value="all">All Applications</option>
+          <option value="submitted">Submitted</option>
+          <option value="under-review">Under Review</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <input type="text" id="searchApplicant" placeholder="Search by applicant name">
+      </div>
+    </div>
+    
+    <div class="loan-status-container">
+      <div id="loanStatus">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

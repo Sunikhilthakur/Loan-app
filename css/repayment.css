@@ -1,0 +1,190 @@
+.repayment {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.repayment-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.summary-card h3 {
+  color: var(--text-light);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.calendar-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.calendar-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+.legend-color.pending {
+  background-color: var(--warning-color);
+}
+
+.legend-color.paid {
+  background-color: var(--secondary-color);
+}
+
+.legend-color.overdue {
+  background-color: var(--danger-color);
+}
+
+.loan-schedule {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--light-color);
+  border-radius: 8px;
+}
+
+.loan-schedule h3 {
+  margin-bottom: 0.5rem;
+}
+
+.loan-schedule p {
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.schedule {
+  margin-top: 1rem;
+}
+
+.payment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payment .date {
+  flex: 1;
+  min-width: 120px;
+}
+
+.payment .amount {
+  flex: 1;
+  min-width: 100px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.payment .status {
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.payment .status.pending {
+  background-color: var(--warning-color);
+}
+
+.payment .status.paid {
+  background-color: var(--secondary-color);
+}
+
+.payment .status.overdue {
+  background-color: var(--danger-color);
+}
+
+.pay-btn {
+  flex: 1;
+  max-width: 150px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.payment-history {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.payment-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.payment-history th, 
+.payment-history td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.payment-history th {
+  background-color: var(--dark-color);
+  color: white;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.paid {
+  background-color: var(--secondary-color);
+}

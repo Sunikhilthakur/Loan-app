@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply for Loan</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-left">
+      <a href="index.html">Home</a>
+      <a href="applyloan.html" class="active">Apply Loan</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="repayment.html">Repayment</a>
+      <a href="compare.html">Compare Loans</a>
+      <a href="admin.html" id="adminLink" style="display:none;">Admin</a>
+    </div>
+    <div class="nav-right" id="authButtons">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <div class="nav-right" id="userDetails" style="display:none;">
+      <span id="userEmail"></span>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Loan Application Form -->
+  <main class="loan-application">
+    <h1>Loan Application</h1>
+    <div class="form-container">
+      <ul class="steps">
+        <li class="step active" data-step="1">Personal Info</li>
+        <li class="step" data-step="2">Financial Details</li>
+        <li class="step" data-step="3">Upload Docs</li>
+      </ul>
+
+      <form id="loanForm">
+        <!-- Step 1 -->
+        <div class="step-content active" id="step1">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required />
+            <div class="error-message" id="nameError"></div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+            <div class="error-message" id="emailError"></div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" required />
+            <div class="error-message" id="phoneError"></div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="next-btn" data-step="1">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-content" id="step2">
+          <div class="form-group">
+            <label for="income">Monthly Income (₹)</label>
+            <input type="number" id="income" required />
+            <div class="error-message" id="incomeError"></div>
+          </div>
+          <div class="form-group">
+            <label for="amount">Loan Amount (₹)</label>
+            <input type="number" id="amount" required />
+            <div class="error-message" id="amountError"></div>
+          </div>
+          <div class="form-group">
+            <label for="purpose">Loan Purpose</label>
+            <select id="purpose" required>
+              <option value="">Select</option>
+              <option value="home">Home Loan</option>
+              <option value="car">Car Loan</option>
+              <option value="education">Education Loan</option>
+              <option value="personal">Personal Loan</option>
+              <option value="business">Business Loan</option>
+            </select>
+            <div class="error-message" id="purposeError"></div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="back-btn" data-step="2">Back</button>
+            <button type="button" class="next-btn" data-step="2">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-content" id="step3">
+          <div class="form-group">
+            <label for="idProof">ID Proof</label>
+            <input type="file" id="idProof" accept="image/*,.pdf" required />
+            <div class="error-message" id="idProofError"></div>
+          </div>
+          <div class="form-group">
+            <label for="addressProof">Address Proof</label>
+            <input type="file" id="addressProof" accept="image/*,.pdf" required />
+            <div class="error-message" id="addressProofError"></div>
+          </div>
+          <div class="form-group">
+            <label for="incomeProof">Income Proof</label>
+            <input type="file" id="incomeProof" accept="image/*,.pdf" required />
+            <div class="error-message" id="incomeProofError"></div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="back-btn" data-step="3">Back</button>
+            <button type="submit" class="submit-btn">Submit Application</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Firebase & App Scripts -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+
+  <!-- Firebase Config -->
+  <script type="module" src="js/firebase-config.js"></script>
+
+  <!-- Auth Logic: shows user in navbar and handles logout -->
+  <script type="module" src="js/auth.js"></script>
+
+  <!-- Form Functionality -->
+  <script type="module" src="js/application.js"></script>
+</body>
+</html>
