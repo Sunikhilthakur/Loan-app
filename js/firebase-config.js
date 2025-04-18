@@ -6,7 +6,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyClKsywredHjPx7NKOEgRSvgPw3SQt5lGQ",
   authDomain: "loan-app-c4d0c.firebaseapp.com",
   databaseURL: "https://loan-app-c4d0c-default-rtdb.asia-southeast1.firebasedatabase.app",
