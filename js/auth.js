@@ -73,3 +73,5 @@ window.logout = logout;
 
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", initializeAuth);
+
+export const app = initializeApp(firebaseConfig);

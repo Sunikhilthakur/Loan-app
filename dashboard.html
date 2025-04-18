@@ -18,11 +18,11 @@
     </div>
     <div class="nav-right" id="authButtons">
       <a href="login.html">Login</a>
-  <a href="signup.html">Sign Up</a>
+      <a href="signup.html">Sign Up</a>
     </div>
     <div class="nav-right" id="userDetails" style="display:none;">
       <span id="userEmail"></span>
-      <button onclick="logout()">Logout</button>
+      <button id="logoutButton">Logout</button>
     </div>
   </nav>
 
@@ -50,11 +50,51 @@
     </div>
   </main>
 
+  <!-- Firebase & App Scripts -->
+  <script type="module">
+    // Import Firebase modules
+    import { auth } from './js/firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+    // Check auth state
+    onAuthStateChanged(auth, (user) => {
+      const authButtons = document.getElementById("authButtons");
+      const userDetails = document.getElementById("userDetails");
+      const userEmail = document.getElementById("userEmail");
+      const logoutButton = document.getElementById("logoutButton");
+      const adminLink = document.getElementById("adminLink");
+      const adminControls = document.getElementById("adminControls");
+
+      if (user) {
+        // User is logged in
+        authButtons.style.display = "none";
+        userDetails.style.display = "flex";
+        userEmail.textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
+        
+        // Show admin controls if user is admin (implement your admin check)
+        // adminLink.style.display = "inline";
+        // adminControls.style.display = "block";
+        
+        // Add logout event listener
+        logoutButton.addEventListener('click', () => {
+          signOut(auth).then(() => {
+            window.location.href = "index.html";
+          }).catch((error) => {
+            console.error("Logout error:", error);
+          });
+        });
+      } else {
+        // No user logged in
+        authButtons.style.display = "flex";
+        userDetails.style.display = "none";
+      }
+    });
+  </script>
+
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/auth.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

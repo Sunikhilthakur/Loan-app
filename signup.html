@@ -135,24 +135,17 @@
   </main>
 
   <script type="module">
-    import { auth, db } from "./js/firebase-config.js";
-    import {
+    // Import Firebase functions directly
+    import { 
       createUserWithEmailAndPassword,
     } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import {
+    import { 
       doc,
       setDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-    window.auth = auth;
-    window.db = db;
-    window.firebaseAuth = { createUserWithEmailAndPassword };
-    window.firebaseFirestore = { doc, setDoc, serverTimestamp };
-  </script>
-
-  <script src="js/firebase-config.js"></script>
-  <script>
+    import { auth, db } from "./js/firebase-config.js";
+  
     document.addEventListener("DOMContentLoaded", () => {
       const signupForm = document.getElementById("signupForm");
       const nameInput = document.getElementById("signupName");
@@ -164,7 +157,7 @@
       const passwordError = document.getElementById("signupPasswordError");
       const confirmPasswordError = document.getElementById("signupConfirmPasswordError");
       const passwordStrength = document.getElementById("passwordStrength");
-
+  
       passwordInput.addEventListener("input", () => {
         const strength = checkPasswordStrength(passwordInput.value);
         if (passwordInput.value.length === 0) {
@@ -174,103 +167,99 @@
           passwordStrength.className = `password-strength strength-${strength.level}`;
         }
       });
-
+  
       signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  nameError.style.display = emailError.style.display = passwordError.style.display = confirmPasswordError.style.display = "none";
-
-  const name = nameInput.value.trim();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
-  const confirmPassword = confirmPasswordInput.value;
-
-  let isValid = true;
-
-  if (!name) {
-    nameError.textContent = "Please enter your full name";
-    nameError.style.display = "block";
-    isValid = false;
-  }
-
-  if (!email) {
-    emailError.textContent = "Please enter your email address";
-    emailError.style.display = "block";
-    isValid = false;
-  } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-    emailError.textContent = "Please enter a valid email address";
-    emailError.style.display = "block";
-    isValid = false;
-  }
-
-  if (!password) {
-    passwordError.textContent = "Please create a password";
-    passwordError.style.display = "block";
-    isValid = false;
-  } else if (password.length < 6) {
-    passwordError.textContent = "Password must be at least 6 characters";
-    passwordError.style.display = "block";
-    isValid = false;
-  }
-
-  if (!confirmPassword) {
-    confirmPasswordError.textContent = "Please confirm your password";
-    confirmPasswordError.style.display = "block";
-    isValid = false;
-  } else if (password !== confirmPassword) {
-    confirmPasswordError.textContent = "Passwords do not match";
-    confirmPasswordError.style.display = "block";
-    isValid = false;
-  }
-
-  if (!isValid) return;
-
-  const submitBtn = signupForm.querySelector(".submit-btn");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Creating account...";
-
-  try {
-    const { createUserWithEmailAndPassword } = window.firebaseAuth;
-    const { doc, setDoc, serverTimestamp } = window.firebaseFirestore;
-
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    const isAdmin = email === "sunikhil1409.be21@chitkara.edu.in" && password === "sunikhil123";
-
-    const userRef = doc(db, "users", user.uid);
-    await setDoc(userRef, {
-      name,
-      email,
-      isAdmin,
-      createdAt: serverTimestamp()
-    });
-
-    // Redirect to login page after successful signup
-    window.location.href = "login.html";  // Redirects to the login page
-
-  } catch (error) {
-    console.error("Signup error:", error);
-    if (error.code === "auth/email-already-in-use") {
-      emailError.textContent = "This email is already registered";
-      emailError.style.display = "block";
-    } else if (error.code === "auth/invalid-email") {
-      emailError.textContent = "Please enter a valid email address";
-      emailError.style.display = "block";
-    } else if (error.code === "auth/weak-password") {
-      passwordError.textContent = "Password should be at least 6 characters";
-      passwordError.style.display = "block";
-    } else {
-      passwordError.textContent = "Signup failed. Please try again";
-      passwordError.style.display = "block";
-    }
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Create Account";
-  }
-});
-
-
+        e.preventDefault();
+  
+        nameError.style.display = emailError.style.display = passwordError.style.display = confirmPasswordError.style.display = "none";
+  
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+  
+        let isValid = true;
+  
+        if (!name) {
+          nameError.textContent = "Please enter your full name";
+          nameError.style.display = "block";
+          isValid = false;
+        }
+  
+        if (!email) {
+          emailError.textContent = "Please enter your email address";
+          emailError.style.display = "block";
+          isValid = false;
+        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+          emailError.textContent = "Please enter a valid email address";
+          emailError.style.display = "block";
+          isValid = false;
+        }
+  
+        if (!password) {
+          passwordError.textContent = "Please create a password";
+          passwordError.style.display = "block";
+          isValid = false;
+        } else if (password.length < 6) {
+          passwordError.textContent = "Password must be at least 6 characters";
+          passwordError.style.display = "block";
+          isValid = false;
+        }
+  
+        if (!confirmPassword) {
+          confirmPasswordError.textContent = "Please confirm your password";
+          confirmPasswordError.style.display = "block";
+          isValid = false;
+        } else if (password !== confirmPassword) {
+          confirmPasswordError.textContent = "Passwords do not match";
+          confirmPasswordError.style.display = "block";
+          isValid = false;
+        }
+  
+        if (!isValid) return;
+  
+        const submitBtn = signupForm.querySelector(".submit-btn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating account...";
+  
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+  
+          const isAdmin = email === "sunikhil1409.be21@chitkara.edu.in" && password === "sunikhil123";
+  
+          const userRef = doc(db, "users", user.uid);
+          await setDoc(userRef, {
+            name,
+            email,
+            isAdmin,
+            createdAt: serverTimestamp()
+          });
+  
+          // Redirect to login page after successful signup
+          window.location.href = "login.html";
+  
+        } catch (error) {
+          console.error("Signup error:", error);
+          if (error.code === "auth/email-already-in-use") {
+            emailError.textContent = "This email is already registered";
+            emailError.style.display = "block";
+          } else if (error.code === "auth/invalid-email") {
+            emailError.textContent = "Please enter a valid email address";
+            emailError.style.display = "block";
+          } else if (error.code === "auth/weak-password") {
+            passwordError.textContent = "Password should be at least 6 characters";
+            passwordError.style.display = "block";
+          } else {
+            passwordError.textContent = "Signup failed. Please try again";
+            passwordError.style.display = "block";
+          }
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account";
+        }
+      });
+  
       function checkPasswordStrength(password) {
         const hasLetters = /[a-zA-Z]/.test(password);
         const hasNumbers = /\d/.test(password);
@@ -279,7 +268,7 @@
         if (password.length > 7) strength++;
         if (hasLetters && hasNumbers) strength++;
         if (hasSpecial) strength++;
-
+  
         if (strength === 1) return { level: "weak", text: "Weak" };
         if (strength === 2) return { level: "medium", text: "Medium" };
         if (strength === 3) return { level: "strong", text: "Strong" };
