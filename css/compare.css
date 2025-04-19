@@ -35,7 +35,7 @@ nav a.active {
 }
 
 button {
-  background-color: var(--primary-color);
+  background-color: #e74c3c;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -46,7 +46,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-dark);
+  background-color: 7f8c8d;
   transform: translateY(-1px);
 }
 

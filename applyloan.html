@@ -3,11 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Apply for Loan</title>
+  <title>Apply Loan</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Loan Application Specific Styles */
+    .form-page {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .primary-button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .primary-button:hover {
+      background-color: #2980b9;
+    }
+
+    #loginMessage {
+      margin-bottom: 1.5rem;
+      padding: 0.8rem;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      color: #721c24;
+    }
+    
+    .user-greeting {
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    
+    #logoutButton {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    #logoutButton:hover {
+      background-color: #c0392b;
+    }
+  </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
   <nav>
     <div class="nav-left">
       <a href="index.html">Home</a>
@@ -22,146 +100,113 @@
       <a href="signup.html">Sign Up</a>
     </div>
     <div class="nav-right" id="userDetails" style="display:none;">
-      <span id="userEmail"></span>
-      <button id="logoutButton">Logout</button> <!-- Changed to use id instead of onclick -->
+      <span class="user-greeting" id="userGreeting"></span>
+      <button id="logoutButton">Logout</button>
     </div>
   </nav>
 
-  <!-- Loan Application Form -->
-  <main class="loan-application">
-    <h1>Loan Application</h1>
+  <main class="form-page">
     <div class="form-container">
-      <ul class="steps">
-        <li class="step active" data-step="1">Personal Info</li>
-        <li class="step" data-step="2">Financial Details</li>
-        <li class="step" data-step="3">Upload Docs</li>
-      </ul>
-
-      <form id="loanForm">
-        <!-- Step 1 -->
-        <div class="step-content active" id="step1">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" required />
-            <div class="error-message" id="nameError"></div>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required />
-            <div class="error-message" id="emailError"></div>
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" required />
-            <div class="error-message" id="phoneError"></div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="next-btn" data-step="1">Next</button>
-          </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="step-content" id="step2">
-          <div class="form-group">
-            <label for="income">Monthly Income (₹)</label>
-            <input type="number" id="income" required />
-            <div class="error-message" id="incomeError"></div>
-          </div>
-          <div class="form-group">
-            <label for="amount">Loan Amount (₹)</label>
-            <input type="number" id="amount" required />
-            <div class="error-message" id="amountError"></div>
-          </div>
-          <div class="form-group">
-            <label for="purpose">Loan Purpose</label>
-            <select id="purpose" required>
-              <option value="">Select</option>
-              <option value="home">Home Loan</option>
-              <option value="car">Car Loan</option>
-              <option value="education">Education Loan</option>
-              <option value="personal">Personal Loan</option>
-              <option value="business">Business Loan</option>
-            </select>
-            <div class="error-message" id="purposeError"></div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="back-btn" data-step="2">Back</button>
-            <button type="button" class="next-btn" data-step="2">Next</button>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step-content" id="step3">
-          <div class="form-group">
-            <label for="idProof">ID Proof</label>
-            <input type="file" id="idProof" accept="image/*,.pdf" required />
-            <div class="error-message" id="idProofError"></div>
-          </div>
-          <div class="form-group">
-            <label for="addressProof">Address Proof</label>
-            <input type="file" id="addressProof" accept="image/*,.pdf" required />
-            <div class="error-message" id="addressProofError"></div>
-          </div>
-          <div class="form-group">
-            <label for="incomeProof">Income Proof</label>
-            <input type="file" id="incomeProof" accept="image/*,.pdf" required />
-            <div class="error-message" id="incomeProofError"></div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="back-btn" data-step="3">Back</button>
-            <button type="submit" class="submit-btn">Submit Application</button>
-          </div>
-        </div>
-      </form>
+      <h2>Apply for a Loan</h2>
+      <div id="loginMessage" style="display:none; color: red;">Please log in to apply for a loan.</div>
+      <input type="text" id="loan-name" class="input-field" placeholder="Full Name" required />
+      <input type="email" id="loan-email" class="input-field" placeholder="Email" required />
+      <input type="text" id="loan-phone" class="input-field" placeholder="Phone Number" required />
+      <input type="number" id="loan-income" class="input-field" placeholder="Monthly Income" required />
+      <input type="text" id="loan-purpose" class="input-field" placeholder="Loan Purpose" required />
+      <input type="number" id="loan-amount" class="input-field" placeholder="Loan Amount" required />
+      <button class="primary-button" onclick="applyLoan()">Apply Loan</button>
     </div>
   </main>
 
-  <!-- Firebase & App Scripts -->
+  <!-- Firebase SDK & logic -->
   <script type="module">
-    // Import Firebase modules
-    import { auth } from './js/firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-    // Check auth state
+    const firebaseConfig = {
+      apiKey: "AIzaSyClKsywredHjPx7NKOEgRSvgPw3SQt5lGQ",
+      authDomain: "loan-app-c4d0c.firebaseapp.com",
+      databaseURL: "https://loan-app-c4d0c-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "loan-app-c4d0c",
+      storageBucket: "loan-app-c4d0c.firebasestorage.app",
+      messagingSenderId: "533607623059",
+      appId: "1:533607623059:web:076d6678176de308e4a066",
+      measurementId: "G-3DDLHCYB6F"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUser = null;
+
+    // Check if the user is logged in
     onAuthStateChanged(auth, (user) => {
-      const authButtons = document.getElementById("authButtons");
-      const userDetails = document.getElementById("userDetails");
-      const userEmail = document.getElementById("userEmail");
-      const logoutButton = document.getElementById("logoutButton");
-
       if (user) {
-        // User is logged in
-        authButtons.style.display = "none";
-        userDetails.style.display = "flex";
-        userEmail.textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
-        
-        // Add logout event listener
-        logoutButton.addEventListener('click', () => {
-          signOut(auth).then(() => {
-            window.location.href = "index.html";
-          }).catch((error) => {
-            console.error("Logout error:", error);
-          });
-        });
-
-        // Auto-fill email if user is logged in
-        const emailInput = document.getElementById("email");
-        if (emailInput && user.email) {
-          emailInput.value = user.email;
-          emailInput.readOnly = true;
-        }
+        currentUser = user;
+        document.getElementById("loginMessage").style.display = "none";
+        document.getElementById("authButtons").style.display = "none";
+        document.getElementById("userDetails").style.display = "flex";
+        document.getElementById("userGreeting").textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
       } else {
-        // No user logged in
-        authButtons.style.display = "flex";
-        userDetails.style.display = "none";
+        currentUser = null;
+        document.getElementById("loginMessage").style.display = "block";
+        document.getElementById("authButtons").style.display = "flex";
+        document.getElementById("userDetails").style.display = "none";
       }
     });
+
+    // Logout functionality
+    document.getElementById("logoutButton").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("Error during logout. Please try again.");
+      }
+    });
+
+    // Apply loan only if user is logged in
+    window.applyLoan = async function () {
+      if (!currentUser) {
+        alert("You must be logged in to apply for a loan.");
+        return;
+      }
+
+      const name = document.getElementById("loan-name").value;
+      const email = document.getElementById("loan-email").value;
+      const phone = document.getElementById("loan-phone").value;
+      const monthlyIncome = document.getElementById("loan-income").value;
+      const loanPurpose = document.getElementById("loan-purpose").value;
+      const loanAmount = document.getElementById("loan-amount").value;
+
+      if (!name || !email || !phone || !monthlyIncome || !loanPurpose || !loanAmount) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "loanApplications"), {
+          name,
+          email,
+          phone,
+          monthlyIncome,
+          loanPurpose,
+          loanAmount,
+          status: 'under-review',
+          userId: currentUser.uid,
+          timestamp: serverTimestamp()
+        });
+        alert("Loan Application Submitted Successfully!");
+        document.querySelectorAll(".input-field").forEach(input => input.value = "");
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    };
   </script>
-
-  <!-- Firebase Config -->
-  <script type="module" src="js/firebase-config.js"></script>
-
-  <!-- Form Functionality -->
-  <script type="module" src="js/application.js"></script>
 </body>
 </html>
+

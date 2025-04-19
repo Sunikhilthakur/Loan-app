@@ -1,0 +1,200 @@
+/* dashboard.css - Specific styles for the Loan Dashboard page */
+
+/* Dashboard Main Container */
+.dashboard {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+  }
+  
+  /* Loan Status Summary */
+  #userStats {
+    background-color: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  #userStats div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  #userStats p {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+  }
+  
+  #userStats span {
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  /* Applications Table */
+  #applicationsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    box-shadow: var(--shadow);
+  }
+  
+  #applicationsTable thead {
+    background-color: var(--dark-color);
+    color: white;
+  }
+  
+  #applicationsTable th {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  #applicationsTable td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  #applicationsTable tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+  }
+  
+  /* Status Badges in Table */
+  .status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .status-pending {
+    background-color: var(--warning-color);
+  }
+  
+  .status-approved {
+    background-color: var(--secondary-color);
+  }
+  
+  .status-rejected {
+    background-color: var(--danger-color);
+  }
+  
+  .status-under-review {
+    background-color: var(--primary-color);
+  }
+  
+  /* Admin Controls */
+  #adminControls {
+    background-color: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-filters {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .admin-filters select, 
+  .admin-filters input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Application Modal */
+  #applicationModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  #modalContent {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--danger-color);
+  }
+  
+  /* Responsive Table */
+  @media (max-width: 768px) {
+    #applicationsTable {
+      display: block;
+      overflow-x: auto;
+    }
+    
+    #userStats div {
+      grid-template-columns: 1fr;
+    }
+    
+    .admin-filters {
+      flex-direction: column;
+    }
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-light);
+  }
+  
+  .empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--border-color);
+  }
+  
+  /* Action Buttons */
+  .action-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    margin-right: 0.3rem;
+    border-radius: 4px;
+  }
+  
+  .view-btn {
+    background-color: var(--primary-color);
+  }
+  
+  .edit-btn {
+    background-color: var(--warning-color);
+  }
+  
+  .delete-btn {
+    background-color: var(--danger-color);
+  }
+  
+  /* Loading State */
+  .loading-state {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }

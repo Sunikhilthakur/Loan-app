@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loan Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
   <nav>
@@ -22,79 +23,73 @@
     </div>
     <div class="nav-right" id="userDetails" style="display:none;">
       <span id="userEmail"></span>
-      <button id="logoutButton">Logout</button>
+      <button onclick="logout()">Logout</button>
     </div>
   </nav>
 
   <main class="dashboard">
     <h1>Loan Dashboard</h1>
-    
+
+    <!-- Admin Controls (if the user is an admin) -->
     <div id="adminControls" style="display:none;">
       <h2>Admin Controls</h2>
       <div class="admin-filters">
         <select id="filterStatus">
           <option value="all">All Applications</option>
-          <option value="submitted">Submitted</option>
-          <option value="under-review">Under Review</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
         </select>
         <input type="text" id="searchApplicant" placeholder="Search by applicant name">
       </div>
     </div>
-    
+
+    <!-- Loan Status for Users -->
     <div class="loan-status-container">
-      <div id="loanStatus">
-        <div class="loading-spinner"></div>
+      <div id="userStats">
+        <h2>Your Loan Applications</h2>
+        <div>
+          <p><strong>Total Applications:</strong> <span id="totalApplications">0</span></p>
+          <p><strong>Pending:</strong> <span id="pendingApplications">0</span></p>
+          <p><strong>Approved:</strong> <span id="approvedLoans">0</span></p>
+          <p><strong>Rejected:</strong> <span id="rejectedLoans">0</span></p>
+        </div>
       </div>
+      
+      <!-- Table for User's Loan Applications -->
+      <h3>Loan Application Status</h3>
+      <table id="applicationsTable">
+        <thead>
+          <tr>
+            <th>Loan ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Purpose</th>
+            <th>Amount</th>
+            <th>Monthly Income</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Loan application details will be displayed here -->
+        </tbody>
+      </table>
     </div>
+
+    <!-- Modal for Viewing Application Details -->
+    <div id="applicationModal" style="display:none;">
+      <div id="modalContent"></div>
+      <button class="close-modal" onclick="closeModal()">Close</button>
+    </div>
+
   </main>
-
-  <!-- Firebase & App Scripts -->
-  <script type="module">
-    // Import Firebase modules
-    import { auth } from './js/firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-
-    // Check auth state
-    onAuthStateChanged(auth, (user) => {
-      const authButtons = document.getElementById("authButtons");
-      const userDetails = document.getElementById("userDetails");
-      const userEmail = document.getElementById("userEmail");
-      const logoutButton = document.getElementById("logoutButton");
-      const adminLink = document.getElementById("adminLink");
-      const adminControls = document.getElementById("adminControls");
-
-      if (user) {
-        // User is logged in
-        authButtons.style.display = "none";
-        userDetails.style.display = "flex";
-        userEmail.textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
-        
-        // Show admin controls if user is admin (implement your admin check)
-        // adminLink.style.display = "inline";
-        // adminControls.style.display = "block";
-        
-        // Add logout event listener
-        logoutButton.addEventListener('click', () => {
-          signOut(auth).then(() => {
-            window.location.href = "index.html";
-          }).catch((error) => {
-            console.error("Logout error:", error);
-          });
-        });
-      } else {
-        // No user logged in
-        authButtons.style.display = "flex";
-        userDetails.style.display = "none";
-      }
-    });
-  </script>
-
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
   <script type="module" src="js/firebase-config.js"></script>
-  <script src="js/dashboard.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module"src="js/dashboard.js"></script>
 </body>
 </html>
