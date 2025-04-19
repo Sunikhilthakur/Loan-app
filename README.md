@@ -36,7 +36,7 @@ loan-application-system/
 ## Installation & Getting Started
 
 # Clone the repo
-git clone https://github.com/your-username/loan-application-system.git
+git clone (https://github.com/Sunikhilthakur/Loan-app)
 cd loan-application-system/frontend
 
 # Open index.html in your browser
