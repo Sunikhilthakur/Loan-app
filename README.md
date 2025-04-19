@@ -64,9 +64,9 @@ Screenshots
 
 # Credentials
 
-User: user@example.com | Password: 123456
+User: example@gmail.com | Password: example123
 
-Admin: admin@example.com | Password: admin123
+Admin: sunikhil1409.be21@chitkara.edu.in | Password: sunikhil123
 
 APIs Used Firebase Authentication API
 
