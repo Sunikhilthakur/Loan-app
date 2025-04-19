@@ -7,7 +7,7 @@ The **Loan Application System** is a web application that enables users to apply
 **Frontend**
 
 ## Deployed App
-- **Frontend:** (https://loan-app-frontend.example.com)  
+- **Frontend:** (https://loanapp7.netlify.app/)  
 
 ## Directory Structure
 loan-application-system/ 
@@ -16,9 +16,6 @@ loan-application-system/
 │ ├─ index.html │
  ├─ dashboard.html │ ├─ application-form.html │ ├─ calendar.html │ ├─ js/ │ │ ├─ auth.js │ │ ├─ dashboard.js │ │ ├─ firebase-config.js │ │ ├─ repayment.js │ ├─ css/ │ │ ├─ style.css │ ├─ assets/
 
-
-## Video Walkthrough of the Project
-📽 [Project Demo (1-3 min)](https://youtu.be/your-demo-link)
 
 ## Features
 - Firebase Email/Password Authentication
