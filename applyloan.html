@@ -115,6 +115,7 @@
       <input type="number" id="loan-income" class="input-field" placeholder="Monthly Income" required />
       <input type="text" id="loan-purpose" class="input-field" placeholder="Loan Purpose" required />
       <input type="number" id="loan-amount" class="input-field" placeholder="Loan Amount" required />
+      <input type="number" id="loan-tenure" class="input-field" placeholder="Loan Tenure (months)" required min="1" max="60" />
       <button class="primary-button" onclick="applyLoan()">Apply Loan</button>
     </div>
   </main>
@@ -130,7 +131,7 @@
       authDomain: "loan-app-c4d0c.firebaseapp.com",
       databaseURL: "https://loan-app-c4d0c-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "loan-app-c4d0c",
-      storageBucket: "loan-app-c4d0c.firebasestorage.app",
+      storageBucket: "loan-app-c4d0c.appspot.com",
       messagingSenderId: "533607623059",
       appId: "1:533607623059:web:076d6678176de308e4a066",
       measurementId: "G-3DDLHCYB6F"
@@ -150,6 +151,9 @@
         document.getElementById("authButtons").style.display = "none";
         document.getElementById("userDetails").style.display = "flex";
         document.getElementById("userGreeting").textContent = `Hi, ${user.displayName || user.email.split('@')[0]}`;
+        
+        // Pre-fill email if user is logged in
+        document.getElementById("loan-email").value = user.email;
       } else {
         currentUser = null;
         document.getElementById("loginMessage").style.display = "block";
@@ -182,8 +186,9 @@
       const monthlyIncome = document.getElementById("loan-income").value;
       const loanPurpose = document.getElementById("loan-purpose").value;
       const loanAmount = document.getElementById("loan-amount").value;
+      const loanTenure = document.getElementById("loan-tenure").value;
 
-      if (!name || !email || !phone || !monthlyIncome || !loanPurpose || !loanAmount) {
+      if (!name || !email || !phone || !monthlyIncome || !loanPurpose || !loanAmount || !loanTenure) {
         alert("Please fill in all fields.");
         return;
       }
@@ -193,20 +198,25 @@
           name,
           email,
           phone,
-          monthlyIncome,
+          monthlyIncome: parseFloat(monthlyIncome),
           loanPurpose,
-          loanAmount,
-          status: 'under-review',
+          loanAmount: parseFloat(loanAmount),
+          loanTenure: parseInt(loanTenure),
+          status: 'Under Review',
           userId: currentUser.uid,
           timestamp: serverTimestamp()
         });
         alert("Loan Application Submitted Successfully!");
         document.querySelectorAll(".input-field").forEach(input => input.value = "");
+        // Keep email filled if user is logged in
+        if (currentUser) {
+          document.getElementById("loan-email").value = currentUser.email;
+        }
       } catch (error) {
-        alert("Error: " + error.message);
+        console.error("Error submitting loan:", error);
+        alert("Error submitting loan application: " + error.message);
       }
     };
   </script>
 </body>
 </html>
-
